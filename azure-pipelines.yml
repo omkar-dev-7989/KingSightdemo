@@ -5,12 +5,19 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: Test
+
+- stage: DEV
 
   jobs:
-  - job: Hello
 
-    steps:
-    - script: |
-        echo "Pipeline is working"
-        echo "Branch = $(Build.SourceBranchName)"
+  - deployment: DeployDEV
+
+    environment: DEV
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - script: |
+              echo Deploying to DEV
