@@ -84,4 +84,5 @@ stages:
     steps:
 
     - script: |
+        echo "Branch Name:"
         echo $(Build.SourceBranchName)
