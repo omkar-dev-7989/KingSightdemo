@@ -75,3 +75,13 @@ stages:
           - script: |
               echo Deploying to PROD
               echo Workspace $(workspaceName)
+- stage: Debug
+
+  jobs:
+
+  - job: PrintBranch
+
+    steps:
+
+    - script: |
+        echo $(Build.SourceBranchName)
