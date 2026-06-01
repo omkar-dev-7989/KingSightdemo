@@ -1,88 +1,16 @@
 trigger:
-  branches:
-    include:
-      - develop
-      - UAT
-      - main
+- "*"
 
 pool:
   vmImage: ubuntu-latest
 
 stages:
-
-- stage: DEV
-
-  condition: eq(variables['Build.SourceBranchName'], 'develop')
-
-  variables:
-    - group: DEV-Variables
+- stage: Test
 
   jobs:
-
-  - deployment: DeployDEV
-
-    environment: DEV
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-          - script: |
-              echo Deploying to DEV
-              echo Workspace $(workspaceName)
-
-- stage: UAT
-
-  condition: eq(variables['Build.SourceBranchName'], 'UAT')
-
-  variables:
-    - group: UAT-Variables
-
-  jobs:
-
-  - deployment: DeployUAT
-
-    environment: UAT
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-          - script: |
-              echo Deploying to UAT
-              echo Workspace $(workspaceName)
-
-- stage: PROD
-
-  condition: eq(variables['Build.SourceBranchName'], 'main')
-
-  variables:
-    - group: PROD-Variables
-
-  jobs:
-
-  - deployment: DeployPROD
-
-    environment: PROD
-
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-          - script: |
-              echo Deploying to PROD
-              echo Workspace $(workspaceName)
-- stage: Debug
-
-  jobs:
-
-  - job: PrintBranch
+  - job: Hello
 
     steps:
-
     - script: |
-        echo "Branch Name:"
-        echo $(Build.SourceBranchName)
+        echo "Pipeline is working"
+        echo "Branch = $(Build.SourceBranchName)"
