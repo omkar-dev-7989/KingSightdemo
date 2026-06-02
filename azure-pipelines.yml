@@ -1,0 +1,95 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - UAT
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+
+# ==========================
+# DEV Deployment
+# ==========================
+- stage: DEV
+  displayName: "Deploy to DEV"
+
+  condition: eq(variables['Build.SourceBranchName'], 'develop')
+
+  jobs:
+
+  - deployment: DeployDEV
+    displayName: "DEV Deployment"
+
+    environment: DEV
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - script: |
+              echo "=================================="
+              echo "Deploying to DEV Environment"
+              echo "Branch Name: $(Build.SourceBranchName)"
+              echo "Build Number: $(Build.BuildNumber)"
+              echo "=================================="
+            displayName: "DEV Deployment Validation"
+
+# ==========================
+# UAT Deployment
+# ==========================
+- stage: UAT
+  displayName: "Deploy to UAT"
+
+  condition: eq(variables['Build.SourceBranchName'], 'UAT')
+
+  jobs:
+
+  - deployment: DeployUAT
+    displayName: "UAT Deployment"
+
+    environment: UAT
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - script: |
+              echo "=================================="
+              echo "Deploying to UAT Environment"
+              echo "Branch Name: $(Build.SourceBranchName)"
+              echo "Build Number: $(Build.BuildNumber)"
+              echo "=================================="
+            displayName: "UAT Deployment Validation"
+
+# ==========================
+# PROD Deployment
+# ==========================
+- stage: PROD
+  displayName: "Deploy to PROD"
+
+  condition: eq(variables['Build.SourceBranchName'], 'main')
+
+  jobs:
+
+  - deployment: DeployPROD
+    displayName: "PROD Deployment"
+
+    environment: PROD
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - script: |
+              echo "=================================="
+              echo "Deploying to PROD Environment"
+              echo "Branch Name: $(Build.SourceBranchName)"
+              echo "Build Number: $(Build.BuildNumber)"
+              echo "=================================="
+            displayName: "PROD Deployment Validation"
